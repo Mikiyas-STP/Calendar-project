@@ -11,6 +11,21 @@ controlsDivs.id = "calendar-controls";
 const tableDiv = document.createElement("div");
 tableDiv.id = "calendar-table";
 
+
+// ----- button previous button -------
+const prevButton = document.createElement("button");
+prevButton.id = "prev-button";
+prevButton.textContent = "Previous";
+
+// ----- button previous button -------
+const nextButton = document.createElement("button")
+nextButton.id = "next-button";
+nextButton.textContent = "Next";
+
+// ----- button previous button -------
+const
+
+
 calendarContainer.appendChild(titleDiv);
 calendarContainer.appendChild(controlsDivs);
 calendarContainer.appendChild(tableDiv);
