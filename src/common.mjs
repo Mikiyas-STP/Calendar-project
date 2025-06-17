@@ -19,7 +19,7 @@ export function populateMonthsSelect(monthSelect) {
 }
 
 // Fill the year dropdown with options over a range of years
-export function populateYearsSelect(yearSelect, startYear = 1900, endYear = 2100) {
+export function populateYearsSelect(yearSelect, startYear = 1900, endYear = 2200) {
   // Clear any existing options
   yearSelect.innerHTML = "";
 
@@ -53,9 +53,6 @@ export function getMonthGrid(year, month) {
   const startDayIndex = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
 
   // --- PART 3: Build the grid, week by week ---
-
-  // This will be our final result, an array of weeks.
-  const grid = [];
 
   // This is a temporary array to hold the 7 days of the week we are currently building.
   let currentWeek = [];
