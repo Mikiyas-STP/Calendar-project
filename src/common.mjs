@@ -1,45 +1,3 @@
-
-export function populateMonthsSelect(selectElement) {
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
-  months.forEach((month, index) => {
-    const option = document.createElement("option");
-    option.value = index; 
-    option.textContent = month;
-    selectElement.appendChild(option);
-  });
-}
-
-export function populateYearsSelect(selectElement) {
-  const currentYear = new Date().getFullYear();
-  for (let year = currentYear - 100; year <= currentYear + 200; year++) {
-    const option = document.createElement("option");
-    option.value = year;
-    option.textContent = year;
-    selectElement.appendChild(option);
-  }
-}
-
-/**
- * The "Grid Calculator" engine. It takes a year and a month and calculates
- * @param {number} year - The full year (e.g., 2025).
- * @param {number} month - The month, from 0 (Jan) to 11 (Dec).
- * @returns {Array<Array<number|null>>} A 2D array of weeks and days.
- */
-
 export function getMonthGrid(year, month) {
   // --- PART 1: Get the two key pieces of information ---
 
@@ -54,11 +12,14 @@ export function getMonthGrid(year, month) {
   // This is a temporary array to hold the 7 days of the week we are currently building.
   let currentWeek = [];
 
+  // This is the main grid array holding weeks
+  const grid = [];
+
   //this is the number we'll be putting into the square, starting with 1
   let dayCounter = 1;
    
   //first, add the empty squares for the beginning of the first week
-  for(let i = 0; i < startDayIndex; i++){
+  for(let i = 0; i < firstDayOfWeek; i++){
     currentWeek.push(null);
     //null will be displayed in the empty squares
   }
@@ -68,7 +29,7 @@ export function getMonthGrid(year, month) {
     currentWeek.push(dayCounter);
 
     if(currentWeek.length === 7){
-      getMonthGrid.push(currentWeek);  //add the completed week to our main
+      grid.push(currentWeek);  //add the completed week to our main
 
       //this will start a new empty array
       currentWeek = []; 
@@ -79,7 +40,9 @@ export function getMonthGrid(year, month) {
 
   //when the month is complete filled, we will fill with null the rest
   if(currentWeek.length < 7){
-    currentWeek.push(null);
+    while(currentWeek.length < 7){
+      currentWeek.push(null);
+    }
   }
 
   //add the final, completed week to our grid.
@@ -87,6 +50,5 @@ export function getMonthGrid(year, month) {
 
 
   //return the finished calendar
-  return getMonthGrid;
-
+  return grid;
 }
