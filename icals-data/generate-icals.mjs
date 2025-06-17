@@ -1,17 +1,12 @@
-// This is a placeholder file which shows how you can access functions and data defined in other files. You can delete the contents of the file once you have understood how it works.
-// It can be run with `node`.
+// icals-data/generate-icals.mjs
+
 import { getDateForCommemorativeDay } from "../src/dateUtilities.mjs";
 import daysData from "./days.json" with { type: "json" };
 import fs from "node:fs";
-import https from "node:https";
-// Utility to fetch text from URL without async/await
-function fetchText(url, callback) {
-    let data = "";
-    https.get(url, (res) => {
-        res.on("data", (chunk) => data += chunk);
-        res.on("end", () => callback(null, data));
-    }).on("error", (err) => callback(err));
-}
+
+// This script now generates a SINGLE file named 'days.ics' containing all events
+// for all years from 2020 to 2030, as per the project requirements.
+
 // Convert JS Date to ICS format: YYYYMMDD
 function formatDateToICS(date) {
     const yyyy = date.getFullYear();
@@ -19,47 +14,61 @@ function formatDateToICS(date) {
     const dd = String(date.getDate()).padStart(2, "0");
     return `${yyyy}${mm}${dd}`;
 }
-// Create a basic ICS file string
-function createICS(name, description, date) {
+
+// This function now creates a single VEVENT block as a string
+function createVEventString(name, date) {
     const formattedDate = formatDateToICS(date);
-    return `BEGIN:VCALENDAR
-VERSION:2.0
-CALSCALE:GREGORIAN
-BEGIN:VEVENT
+    // Create a unique ID for the calendar event
+    const uid = `${formattedDate}-${name.replace(/\s+/g, "")}@days-calendar.project`;
+
+    // The DESCRIPTION field is not required for a group of 2, so it's omitted.
+    return `BEGIN:VEVENT
 DTSTART;VALUE=DATE:${formattedDate}
 DTEND;VALUE=DATE:${formattedDate}
 SUMMARY:${name}
-DESCRIPTION:${description}
-END:VEVENT
-END:VCALENDAR`;
+UID:${uid}
+END:VEVENT`;
 }
-// Start script
-const year = new Date().getFullYear(); // You can change to fixed year if needed
-let remaining = daysData.length;
-console.log(`Generating .ics files for ${year}...`);
-daysData.forEach((dayInfo) => {
-    const date = getDateForCommemorativeDay(dayInfo, year);
 
-    if (!date) {
-        console.error(`Could not resolve date for ${dayInfo.name}`);
-        return;
-    }
-    fetchText(dayInfo.descriptionURL, (err, description) => {
-        if (err) {
-            console.error(`Failed to fetch ${dayInfo.name} description:`, err.message);
-            description = "No description available.";
+// Start script
+console.log("Generating a single days.ics file for years 2020-2030...");
+
+const allEventStrings = [];
+
+// Loop through the required year range
+for (let year = 2020; year <= 2030; year++) {
+    // For each year, calculate the date for each commemorative day
+    daysData.forEach((dayInfo) => {
+        const date = getDateForCommemorativeDay(dayInfo, year);
+
+        if (date) {
+            // If the date is valid, create the event string and add it to our list
+            const eventString = createVEventString(dayInfo.name, date);
+            allEventStrings.push(eventString);
+        } else {
+            console.warn(`Could not resolve date for ${dayInfo.name} in ${year}`);
         }
-        const icsContent = createICS(dayInfo.name, description.trim(), date);
-        const fileName = `icals-data/${dayInfo.name.replace(/\s+/g, "_")}.ics`;
-        fs.writeFile(fileName, icsContent, (err) => {
-            if (err) {
-                console.error(`Failed to write ${fileName}:`, err.message);
-            } else {
-                console.log(`Created ${fileName}`);
-            }
-            if (--remaining === 0) {
-                console.log("All .ics files generated.");
-            }
-        });
     });
+}
+
+// Join all the individual event strings together
+const eventsContent = allEventStrings.join("\n");
+
+// Wrap the events in the main VCALENDAR structure
+const finalIcsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+CALSCALE:GREGORIAN
+PRODID:-//DaysCalendar//EN
+${eventsContent}
+END:VCALENDAR`;
+
+const outputFileName = "days.ics";
+
+// Write the complete string to a single file
+fs.writeFile(outputFileName, finalIcsContent, (err) => {
+    if (err) {
+        console.error(`Failed to write ${outputFileName}:`, err.message);
+    } else {
+        console.log(`Successfully created ${outputFileName} containing ${allEventStrings.length} total events.`);
+    }
 });
