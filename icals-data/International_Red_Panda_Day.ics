@@ -1,0 +1,10 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20250920
+DTEND;VALUE=DATE:20250920
+SUMMARY:International Red Panda Day
+DESCRIPTION:Red pandas are an endangered species. They happen to be really cute, but that's not the only reason we should help them to thrive!
+END:VEVENT
+END:VCALENDAR

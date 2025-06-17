@@ -1,0 +1,10 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20251031
+DTEND;VALUE=DATE:20251031
+SUMMARY:World Lemur Day
+DESCRIPTION:Lemurs are excellent. Did you know that the most likely scientific theory as to how they got to Madagascar is that they rafted there from mainland Africa?
+END:VEVENT
+END:VCALENDAR
