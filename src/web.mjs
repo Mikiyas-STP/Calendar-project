@@ -4,7 +4,34 @@
 // STEP 1: GATHER THE TEAMS (Importing)
 // The Project Manager gets the phone numbers for the specialized teams it needs.
 import { createCalendarLayout } from "./calendar.mjs"; // Imports the UI "builder" function.
-import { populateMonthsSelect, populateYearsSelect } from "./common.mjs"; // Imports the "tool" functions.
+import { populateMonthsSelect, populateYearsSelect, getMonthGrid } from "./common.mjs"; // Imports the "tool" functions and calendar engine
+
+// Helper function to render calendar days into the table body
+function renderCalendarGrid(year, month, tbody) {
+  // Clear any existing calendar rows
+  tbody.innerHTML = "";
+
+  // Get the 2D array of weeks and days from the calendar engine
+  const weeks = getMonthGrid(year, month);
+
+  // Iterate through each week
+  weeks.forEach((week) => {
+    const tr = document.createElement("tr");
+
+    // Iterate through each day in the week (number or null)
+    week.forEach((day) => {
+      const td = document.createElement("td");
+
+      // If day is null, show empty cell; otherwise show the day number
+      td.textContent = day === null ? "" : day;
+
+      tr.appendChild(td);
+    });
+
+    // Append the completed week row to the table body
+    tbody.appendChild(tr);
+  });
+}
 
 // STEP 2: DEFINE THE MASTER PLAN (The Main Function)
 // This function contains the entire sequence of startup instructions.
@@ -30,16 +57,64 @@ function initializeApp() {
   ui.monthSelect.value = today.getMonth(); // January is 0, February is 1, etc.
   ui.yearSelect.value = today.getFullYear();
 
-  console.log("Calendar is ready and running!");
+  // STEP 6: RENDER THE INITIAL CALENDAR GRID
+  // Now that the initial month and year are set, render the calendar dates
+  renderCalendarGrid(today.getFullYear(), today.getMonth(), ui.tbody);
 
-  // This is where you would add future steps, like telling the buttons what to do when clicked.
-  // ui.nextButton.addEventListener('click', () => {
-  //     console.log("Next button was clicked.");
-  //     // Logic to change the month...
-  // });
+  // STEP 7: ADD EVENT LISTENERS TO UPDATE THE CALENDAR WHEN USER CHANGES CONTROLS
+
+  // When the user changes the month dropdown
+  ui.monthSelect.addEventListener("change", () => {
+    renderCalendarGrid(Number(ui.yearSelect.value), Number(ui.monthSelect.value), ui.tbody);
+  });
+
+  // When the user changes the year dropdown
+  ui.yearSelect.addEventListener("change", () => {
+    renderCalendarGrid(Number(ui.yearSelect.value), Number(ui.monthSelect.value), ui.tbody);
+  });
+
+  // When the user clicks the "Previous" button
+  ui.prevButton.addEventListener("click", () => {
+    let month = Number(ui.monthSelect.value);
+    let year = Number(ui.yearSelect.value);
+
+    // Move back one month, adjusting year if needed
+    if (month === 0) {
+      month = 11;
+      year--;
+    } else {
+      month--;
+    }
+
+    // Update the dropdown values and re-render the calendar
+    ui.monthSelect.value = month;
+    ui.yearSelect.value = year;
+    renderCalendarGrid(year, month, ui.tbody);
+  });
+
+  // When the user clicks the "Next" button
+  ui.nextButton.addEventListener("click", () => {
+    let month = Number(ui.monthSelect.value);
+    let year = Number(ui.yearSelect.value);
+
+    // Move forward one month, adjusting year if needed
+    if (month === 11) {
+      month = 0;
+      year++;
+    } else {
+      month++;
+    }
+
+    // Update the dropdown values and re-render the calendar
+    ui.monthSelect.value = month;
+    ui.yearSelect.value = year;
+    renderCalendarGrid(year, month, ui.tbody);
+  });
+
+  console.log("Calendar is ready and running!");
 }
 
-// STEP 6: START THE ENTIRE OPERATION (Execution)
+// STEP 8: START THE ENTIRE OPERATION (Execution)
 // The plan is defined, but nothing has happened yet.
 // This single line at the end is the "GO" signal. It calls the `initializeApp` function
 // and triggers the entire chain of events defined above.

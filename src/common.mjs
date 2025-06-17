@@ -1,45 +1,38 @@
-
-export function populateMonthsSelect(selectElement) {
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+// Fill the month dropdown with options (January to December)
+export function populateMonthsSelect(monthSelect) {
+  const monthNames = [
+    "January", "February", "March", "April",
+    "May", "June", "July", "August",
+    "September", "October", "November", "December"
   ];
 
-  months.forEach((month, index) => {
+  // Clear any existing options
+  monthSelect.innerHTML = "";
+
+  // Create option elements for each month and append them
+  monthNames.forEach((monthName, index) => {
     const option = document.createElement("option");
-    option.value = index; 
-    option.textContent = month;
-    selectElement.appendChild(option);
+    option.value = index; // 0-based month index
+    option.textContent = monthName;
+    monthSelect.appendChild(option);
   });
 }
 
-export function populateYearsSelect(selectElement) {
-  const currentYear = new Date().getFullYear();
-  for (let year = currentYear - 100; year <= currentYear + 200; year++) {
+// Fill the year dropdown with options over a range of years
+export function populateYearsSelect(yearSelect, startYear = 1900, endYear = 2100) {
+  // Clear any existing options
+  yearSelect.innerHTML = "";
+
+  // Generate option elements for each year in the range and append them
+  for (let year = startYear; year <= endYear; year++) {
     const option = document.createElement("option");
     option.value = year;
     option.textContent = year;
-    selectElement.appendChild(option);
+    yearSelect.appendChild(option);
   }
 }
 
-/**
- * The "Grid Calculator" engine. It takes a year and a month and calculates
- * @param {number} year - The full year (e.g., 2025).
- * @param {number} month - The month, from 0 (Jan) to 11 (Dec).
- * @returns {Array<Array<number|null>>} A 2D array of weeks and days.
- */
-
+// Your existing getMonthGrid function
 export function getMonthGrid(year, month) {
   // --- PART 1: Get the two key pieces of information ---
 
@@ -47,8 +40,8 @@ export function getMonthGrid(year, month) {
   // This trick gets the last day of the given month by asking for day 0 of the *next* month.
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-  //on what day of the week does this month start?
-  //getDay() return 0 for sunday, 1 for monday, 2 for Tuesday ...etc
+  // on what day of the week does this month start?
+  // getDay() return 0 for sunday, 1 for monday, 2 for Tuesday ...etc
   const firstDayOfWeek = new Date(year, month, 1).getDay();
 
   // --- PART 2: Adjust for our week starting on Monday ---
@@ -67,14 +60,20 @@ export function getMonthGrid(year, month) {
   // This is a temporary array to hold the 7 days of the week we are currently building.
   let currentWeek = [];
 
-  //this is the number we'll be putting into the square, starting with 1
+  // This is the main grid array holding weeks
+  const grid = [];
+
+  // this is the number we'll be putting into the square, starting with 1
   let dayCounter = 1;
+
 
   //first, add the empty squares for the beginning of the first week
   for (let i = 0; i < startDayIndex; i++) {
+
     currentWeek.push(null);
-    //null will be displayed in the empty squares
+    // null will be displayed in the empty squares
   }
+
 
   //Now, fill the square with day numbers until we run out of days.
   while (dayCounter <= daysInMonth) {
@@ -84,6 +83,7 @@ export function getMonthGrid(year, month) {
 
       //this will start a new empty array
       currentWeek = [];
+
     }
 
     dayCounter++;
@@ -103,3 +103,4 @@ export function getMonthGrid(year, month) {
   // Now, return the completed grid.
   return grid;
 }
+
