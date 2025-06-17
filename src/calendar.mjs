@@ -40,14 +40,13 @@ export function createCalendarLayout() {
   const monthSelect = document.createElement("select");
   monthSelect.id = "month-select";
 
-
-
+  
   // ----- Dropdown Years  -------
   // ----- ACCESSIBILITY LABELS Years -------
   const yearLabel = document.createElement("label");
   yearLabel.htmlFor = "year-select";
   yearLabel.textContent = "Year: ";
-  
+
   const yearSelect = document.createElement("select");
   yearSelect.id = "year-select";
 
