@@ -1,12 +1,13 @@
 //function to translate rules like "second Tuesday of October" into a real date.
+import {dayNames } from "./calendar.mjs" 
+
 export function getDateForCommemorativeDay(dayData, year) {
     const monthIndex = new Date(`${dayData.monthName} 1, ${year}`).getMonth();
-    const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-        .indexOf(dayData.dayName);
+    dayNames.indexOf(dayData.dayName);
     const dates = [];
     const date = new Date(year, monthIndex, 1);
     while (date.getMonth() === monthIndex) {
-        if (date.getDay() === weekday) {
+        if (date.getDay() === dayNames) {
             dates.push(new Date(date));
         }
         date.setDate(date.getDate() + 1);
