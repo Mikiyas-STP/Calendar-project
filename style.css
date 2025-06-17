@@ -1,0 +1,31 @@
+*{
+    text-align: center;
+}
+
+#calendar-title {
+    font-size: 2rem;
+    font-weight: 900;
+    text-align: center;
+}
+
+#calendar-controls button,
+#calendar-controls select {
+    text-align: center;
+    margin: 1rem;
+    min-height: 44px;
+    /* Ensure a minimum height */
+    min-width: 44px;
+    /* Ensure a minimum width for buttons */
+    font-size: 1rem;
+    /* Make text larger and easier to read */
+    padding: 0.5rem;
+    vertical-align: middle;
+    gap: 0.1rem;
+}
+
+#calendar-controls label {
+    margin-left: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 900;
+}
+
