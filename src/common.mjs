@@ -44,6 +44,19 @@ export function getMonthGrid(year, month) {
   // getDay() return 0 for sunday, 1 for monday, 2 for Tuesday ...etc
   const firstDayOfWeek = new Date(year, month, 1).getDay();
 
+  // --- PART 2: Adjust for our week starting on Monday ---
+
+  // The instructions say our calendar week starts on Monday.
+  // We need to convert JavaScript's Sunday-first week (0=Sun) to a Monday-first week (0=Mon).
+  // This is a simple calculation to find our "starting square" in the grid.
+  // It's a compact if-else: if (firstDayOfWeek === 0) then startDayIndex is 6, else it's firstDayOfWeek - 1.
+  const startDayIndex = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
+
+  // --- PART 3: Build the grid, week by week ---
+
+  // This will be our final result, an array of weeks.
+  const grid = [];
+
   // This is a temporary array to hold the 7 days of the week we are currently building.
   let currentWeek = [];
 
@@ -52,37 +65,42 @@ export function getMonthGrid(year, month) {
 
   // this is the number we'll be putting into the square, starting with 1
   let dayCounter = 1;
-   
-  // first, add the empty squares for the beginning of the first week
-  for(let i = 0; i < firstDayOfWeek; i++){
+
+
+  //first, add the empty squares for the beginning of the first week
+  for (let i = 0; i < startDayIndex; i++) {
+
     currentWeek.push(null);
     // null will be displayed in the empty squares
   }
 
-  // Now, fill the square with day numbers until we run out of days.
-  while (dayCounter <= daysInMonth){
+
+  //Now, fill the square with day numbers until we run out of days.
+  while (dayCounter <= daysInMonth) {
     currentWeek.push(dayCounter);
+    if (currentWeek.length === 7) {
+      grid.push(currentWeek); //add the completed week to our main
 
-    if(currentWeek.length === 7){
-      grid.push(currentWeek);  // add the completed week to our main
+      //this will start a new empty array
+      currentWeek = [];
 
-      // this will start a new empty array
-      currentWeek = []; 
     }
 
     dayCounter++;
   }
 
-  // when the month is complete filled, we will fill with null the rest
-  if(currentWeek.length < 7){
-    while(currentWeek.length < 7){
+  // After the loop, check if there's an incomplete week left over.
+  // (This handles months that don't end perfectly on a Sunday).
+  if (currentWeek.length > 0) {
+    while (currentWeek.length < 7) {
       currentWeek.push(null);
     }
+     //Add the final, now-completed week to the grid.
+    grid.push(currentWeek);
   }
 
-  // add the final, completed week to our grid.
-  grid.push(currentWeek);
 
-  // return the finished calendar
+  // Now, return the completed grid.
   return grid;
 }
+
