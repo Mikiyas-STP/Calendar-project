@@ -19,28 +19,47 @@ export function createCalendarLayout() {
   tableDiv.id = "calendar-table";
 
   // ----- button previous button -------
+  // ----- Added aria label for accessibility screen readers -------
   const prevButton = document.createElement("button");
   prevButton.id = "prev-button";
   prevButton.textContent = " ← Previous";
+  prevButton.setAttribute("aria-label", "Go to previous month");
 
   // ----- button previous button -------
   const nextButton = document.createElement("button");
   nextButton.id = "next-button";
   nextButton.textContent = "Next → ";
+  nextButton.setAttribute("aria-label", "Go to the next month");
 
   // ----- Dropdown Months  -------
+  // ----- ACCESSIBILITY LABELS Months -------
+  const monthLabel = document.createElement("label");
+  monthLabel.htmlFor = "month-select";
+  monthLabel.textContent = "Month: ";
+
   const monthSelect = document.createElement("select");
   monthSelect.id = "month-select";
 
+
+
   // ----- Dropdown Years  -------
+  // ----- ACCESSIBILITY LABELS Years -------
+  const yearLabel = document.createElement("label");
+  yearLabel.htmlFor = "year-select";
+  yearLabel.textContent = "Year: ";
+  
   const yearSelect = document.createElement("select");
   yearSelect.id = "year-select";
+
 
   //appended buttons and dropdown to its container.
   controlsDiv.appendChild(prevButton);
   controlsDiv.appendChild(nextButton);
+  controlsDiv.appendChild(monthLabel);
   controlsDiv.appendChild(monthSelect);
+  controlsDiv.appendChild(yearLabel);
   controlsDiv.appendChild(yearSelect);
+
 
   // ----- Table calendar  -------
   const table = document.createElement("table");
