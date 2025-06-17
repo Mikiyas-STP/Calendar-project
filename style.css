@@ -1,0 +1,31 @@
+*{
+    text-align: center;
+
+}
+
+#calendar-title {
+    font-size: 2rem;
+    font-weight: 900;
+    text-align: center;
+    color: blue;
+}
+
+#calendar-controls button,
+#calendar-controls select {
+    text-align: center;
+    margin: 1rem;
+    min-height: 44px;
+    min-width: 44px;
+    font-size: 1rem;
+    padding: 0.5rem;
+    vertical-align: middle;
+    gap: 0.1rem;    
+}
+
+#calendar-controls label {
+    margin-left: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: purple;
+}
+
