@@ -1,6 +1,4 @@
-//we have all code in one function and we can call it
-// when we need it, and send by return the key elements
-
+//The UI layout of our Calendar
 export function createCalendarLayout() {
   //main container
   const calendarContainer = document.createElement("div");
@@ -40,7 +38,6 @@ export function createCalendarLayout() {
   const monthSelect = document.createElement("select");
   monthSelect.id = "month-select";
 
-  
   // ----- Dropdown Years  -------
   // ----- ACCESSIBILITY LABELS Years -------
   const yearLabel = document.createElement("label");
@@ -50,15 +47,8 @@ export function createCalendarLayout() {
   const yearSelect = document.createElement("select");
   yearSelect.id = "year-select";
 
-
   //appended buttons and dropdown to its container.
-  controlsDiv.appendChild(prevButton);
-  controlsDiv.appendChild(nextButton);
-  controlsDiv.appendChild(monthLabel);
-  controlsDiv.appendChild(monthSelect);
-  controlsDiv.appendChild(yearLabel);
-  controlsDiv.appendChild(yearSelect);
-
+  controlsDiv.append(prevButton, nextButton, monthLabel, monthSelect, yearLabel, yearSelect);
 
   // ----- Table calendar  -------
   const table = document.createElement("table");
@@ -68,19 +58,11 @@ export function createCalendarLayout() {
   const thead = document.createElement("thead");
   const headerRow = document.createElement("tr");
 
-  const dayNames = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
+  const dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
   dayNames.forEach((day) => {
     const th = document.createElement("th");
     th.textContent = day;
-    headerRow.appendChild(th);
+    headerRow.appendChild(th); // .append() doesn't offer much advantage inside a loop
   });
 
   thead.appendChild(headerRow);
@@ -90,23 +72,14 @@ export function createCalendarLayout() {
   tbody.id = "calendar-body";
 
   // ----- body where dates will be injected dynamically  -------
-  table.appendChild(thead);
-  table.appendChild(tbody);
+  table.append(thead, tbody);
   tableDiv.appendChild(table);
 
-  calendarContainer.appendChild(titleDiv);
-  calendarContainer.appendChild(controlsDiv);
-  calendarContainer.appendChild(tableDiv);
+  calendarContainer.append(titleDiv, controlsDiv, tableDiv);
 
   //appended to the body the structure
   document.body.appendChild(calendarContainer);
 
-  return {
-    monthSelect: monthSelect,
-    yearSelect: yearSelect,
-    prevButton: prevButton,
-    nextButton: nextButton,
-    tbody: tbody,
-  };
+  // Using property shorthand for a more compact return statement
+  return { monthSelect, yearSelect, prevButton, nextButton, tbody };
 }
-

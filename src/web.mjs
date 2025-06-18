@@ -1,12 +1,9 @@
-// src/web.mjs
-// This is the application's entry point. It controls the flow of everything.
+//This is our main js file (the application's entry point)where it controls the flow of everything.
 
-// STEP 1: GATHER THE TEAMS (Importing)
-// The Project Manager gets the phone numbers for the specialized teams it needs.
 import { createCalendarLayout } from "./calendar.mjs"; // Imports the UI "builder" function.
-import { populateMonthsSelect, populateYearsSelect, getMonthGrid } from "./common.mjs"; // Imports the "tool" functions and calendar engine
-import { getDateForCommemorativeDay } from "./dateUtilities.mjs"; // <-- ADDED: Import the core date logic
-import commemorativeDays from "../../icals-data/days.json" with { type: "json" }; // <-- ADDED: Import the event data
+import { populateMonthsSelect, populateYearsSelect, getMonthGrid } from "./common.mjs"; // Imports the functions
+import { getDateForCommemorativeDay } from "./dateUtilities.mjs"; //Import the core date logic
+import commemorativeDays from "../../icals-data/days.json" with { type: "json" }; //Import the event data
 
 // New helper function to find all events for a given month and year
 function getEventsForMonth(year, month) {
@@ -68,51 +65,41 @@ function renderCalendarGrid(year, month, tbody) {
   });
 }
 
-// STEP 2: DEFINE THE MASTER PLAN (The Main Function)
-// This function contains the entire sequence of startup instructions.
+
+//function to define the entire sequence of startup instructions.
 function initializeApp() {
   console.log("Initializing calendar...");
 
-  // STEP 3: EXECUTE THE FIRST TASK - Build the Structure
-  // The Manager calls the Engineering Team (`calendar.mjs`) and gives the order: "Build the layout!"
-  // The `createCalendarLayout` function builds the UI and RETURNS the important interactive parts (like the dropdowns).
-  // We store these returned elements in the `ui` variable. This is like the engineers handing the manager the keys to the new building.
+  //createCalendarLayout function builds the UI and RETURNS the important interactive parts (like the dropdowns)and then we stored that in ui.
   const ui = createCalendarLayout();
 
-  // STEP 4: EXECUTE THE SECOND TASK - Populate the Controls
-  // Now that the structure exists and the manager has the "keys" (`ui`),
-  // it calls the Tool Shop (`common.mjs`) and says: "Take this tool (`populateMonthsSelect`) and use it on this specific part (`ui.monthSelect`)."
+  //Populate the Controls
+  //use populateMonthsSelect to populate the monthselect and yearselect.
   populateMonthsSelect(ui.monthSelect);
   populateYearsSelect(ui.yearSelect);
 
-  // STEP 5: EXECUTE THE THIRD TASK - Set the Initial State
-  // This is a quality-of-life step. The manager sets the dropdowns to reflect today's date
-  // so the user has a sensible starting point. This can only happen AFTER the dropdowns have been populated in Step 4.
+  //after the dropdown have been populated  then we Set the Initial State
+  //dropdowns to reflect today's date
   const today = new Date();
   ui.monthSelect.value = today.getMonth(); // January is 0, February is 1, etc.
   ui.yearSelect.value = today.getFullYear();
 
-  // STEP 6: RENDER THE INITIAL CALENDAR GRID
   // Now that the initial month and year are set, render the calendar dates
   renderCalendarGrid(today.getFullYear(), today.getMonth(), ui.tbody);
 
-  // STEP 7: ADD EVENT LISTENERS TO UPDATE THE CALENDAR WHEN USER CHANGES CONTROLS
-
-  // When the user changes the month dropdown
+  //eventlisteners to update the calendar
+  //When the user changes the month dropdown
   ui.monthSelect.addEventListener("change", () => {
     renderCalendarGrid(Number(ui.yearSelect.value), Number(ui.monthSelect.value), ui.tbody);
   });
-
   // When the user changes the year dropdown
   ui.yearSelect.addEventListener("change", () => {
     renderCalendarGrid(Number(ui.yearSelect.value), Number(ui.monthSelect.value), ui.tbody);
   });
-
   // When the user clicks the "Previous" button
   ui.prevButton.addEventListener("click", () => {
     let month = Number(ui.monthSelect.value);
     let year = Number(ui.yearSelect.value);
-
     // Move back one month, adjusting year if needed
     if (month === 0) {
       month = 11;
@@ -120,18 +107,15 @@ function initializeApp() {
     } else {
       month--;
     }
-
     // Update the dropdown values and re-render the calendar
     ui.monthSelect.value = month;
     ui.yearSelect.value = year;
     renderCalendarGrid(year, month, ui.tbody);
   });
-
   // When the user clicks the "Next" button
   ui.nextButton.addEventListener("click", () => {
     let month = Number(ui.monthSelect.value);
     let year = Number(ui.yearSelect.value);
-
     // Move forward one month, adjusting year if needed
     if (month === 11) {
       month = 0;
@@ -139,18 +123,11 @@ function initializeApp() {
     } else {
       month++;
     }
-
     // Update the dropdown values and re-render the calendar
     ui.monthSelect.value = month;
     ui.yearSelect.value = year;
     renderCalendarGrid(year, month, ui.tbody);
   });
-
-  console.log("Calendar is ready and running!");
 }
-
-// STEP 8: START THE ENTIRE OPERATION (Execution)
-// The plan is defined, but nothing has happened yet.
-// This single line at the end is the "GO" signal. It calls the `initializeApp` function
-// and triggers the entire chain of events defined above.
+//start the entire execution. 
 initializeApp();

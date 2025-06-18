@@ -1,12 +1,8 @@
-// icals-data/generate-icals.mjs
-
 import { getDateForCommemorativeDay } from "../src/dateUtilities.mjs";
 import daysData from "./days.json" with { type: "json" };
 import fs from "node:fs";
 
-// This script now generates a SINGLE file named 'days.ics' containing all events
-// for all years from 2020 to 2030, as per the project requirements.
-
+// This script is to generate a SINGLE file named 'days.ics' containing all events
 // Convert JS Date to ICS format: YYYYMMDD
 function formatDateToICS(date) {
     const yyyy = date.getFullYear();
@@ -20,7 +16,6 @@ function createVEventString(name, date) {
     const formattedDate = formatDateToICS(date);
     // Create a unique ID for the calendar event
     const uid = `${formattedDate}-${name.replace(/\s+/g, "")}@days-calendar.project`;
-
     // The DESCRIPTION field is not required for a group of 2, so it's omitted.
     return `BEGIN:VEVENT
 DTSTART;VALUE=DATE:${formattedDate}
@@ -30,11 +25,7 @@ UID:${uid}
 END:VEVENT`;
 }
 
-// Start script
-console.log("Generating a single days.ics file for years 2020-2030...");
-
 const allEventStrings = [];
-
 // Loop through the required year range
 for (let year = 2020; year <= 2030; year++) {
     // For each year, calculate the date for each commemorative day
@@ -50,10 +41,8 @@ for (let year = 2020; year <= 2030; year++) {
         }
     });
 }
-
 // Join all the individual event strings together
 const eventsContent = allEventStrings.join("\n");
-
 // Wrap the events in the main VCALENDAR structure
 const finalIcsContent = `BEGIN:VCALENDAR
 VERSION:2.0
@@ -61,9 +50,7 @@ CALSCALE:GREGORIAN
 PRODID:-//DaysCalendar//EN
 ${eventsContent}
 END:VCALENDAR`;
-
 const outputFileName = "days.ics";
-
 // Write the complete string to a single file
 fs.writeFile(outputFileName, finalIcsContent, (err) => {
     if (err) {
