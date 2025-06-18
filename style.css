@@ -1,4 +1,4 @@
-
+/*forthe whole calendar container*/
 #calendar-container {
     margin-top: 10%;
     display: flex;
@@ -7,14 +7,47 @@
     justify-content: center;
     gap: 2rem;
 }
-
-#calendar-title {
-    font-size: 2rem;
-    font-weight: 900;
-    text-align: center;
-    color: blue;
+/*forthe table border*/
+#calendar-grid {
+    border-collapse: collapse;
+    width: 50%;
+    table-layout: fixed; /* Ensures all columns are the same width */
+    margin-top: 15px;
+    /*to center this grid/the calender part*/
+    margin-left: auto;
+    margin-right: auto;
 }
-
+/* heading mon tue ..*/
+#calendar-grid th {
+    border: 2px solid #ccc;
+    padding: 6px;
+    text-align: center;
+}
+/*each individual day */
+#calendar-grid td {
+    border: 1px solid #ccc;
+    height: 80px;
+    padding: 5px;
+    vertical-align: top;
+}
+/*what if cell is empty. i applied this style*/
+#calendar-grid td:empty {
+    background-color: #f9f9f9;
+}
+/* A very simple style for the event text inside a day */
+.event {
+    background-color: #e7f3ff;
+    padding: 3px;
+    font-size: 0.9em;
+    border-radius: 5px;
+}
+/* for the title */
+#calendar-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-align: center;
+    color: rgb(63, 63, 155);
+}
 #calendar-controls button,
 #calendar-controls select {
     text-align: center;
@@ -22,11 +55,11 @@
     min-height: 44px;
     min-width: 44px;
     font-size: 1rem;
+    font-weight: 600;
     padding: 0.5rem;
     vertical-align: middle;
     gap: 0.1rem;    
 }
-
 #calendar-controls label {
     margin-left: 0.5rem;
     font-size: 1.5rem;
