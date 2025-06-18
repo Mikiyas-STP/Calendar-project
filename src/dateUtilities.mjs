@@ -1,6 +1,3 @@
-// src/dateUtilities.mjs
-
-//function to translate rules like "second Tuesday of October" into a real date.
 const dayIndexMap = {
     "Sunday": 0,
     "Monday": 1,
@@ -11,6 +8,7 @@ const dayIndexMap = {
     "Saturday": 6
 };
 
+//function to translate rules like "second Tuesday of October" into a real date.
 export function getDateForCommemorativeDay(dayData, year) {
     const monthIndex = new Date(`${dayData.monthName} 1, ${year}`).getMonth();
     const targetDayIndex = dayIndexMap[dayData.dayName]; // Correctly get the target day number (e.g., "Tuesday" -> 2)
