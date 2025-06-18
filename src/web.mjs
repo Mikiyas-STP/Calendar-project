@@ -5,9 +5,32 @@
 // The Project Manager gets the phone numbers for the specialized teams it needs.
 import { createCalendarLayout } from "./calendar.mjs"; // Imports the UI "builder" function.
 import { populateMonthsSelect, populateYearsSelect, getMonthGrid } from "./common.mjs"; // Imports the "tool" functions and calendar engine
+import { getDateForCommemorativeDay } from "./dateUtilities.mjs"; // <-- ADDED: Import the core date logic
+import commemorativeDays from "../../icals-data/days.json" with { type: "json" }; // <-- ADDED: Import the event data
+
+// New helper function to find all events for a given month and year
+function getEventsForMonth(year, month) {
+  const events = new Map(); // Using a Map is efficient for looking up events by day number
+
+  commemorativeDays.forEach((dayInfo) => {
+    // Check if the commemorative day belongs to the month we are currently displaying
+    const eventMonthIndex = new Date(`${dayInfo.monthName} 1, 2000`).getMonth();
+    if (eventMonthIndex === month) {
+      const date = getDateForCommemorativeDay(dayInfo, year);
+      if (date) {
+        // Store the event in our map with the day number as the key (e.g., 8 -> "Ada Lovelace Day")
+        events.set(date.getDate(), dayInfo.name);
+      }
+    }
+  });
+  return events;
+}
 
 // Helper function to render calendar days into the table body
 function renderCalendarGrid(year, month, tbody) {
+  // Get all events for the currently displayed month and year
+  const events = getEventsForMonth(year, month);
+
   // Clear any existing calendar rows
   tbody.innerHTML = "";
 
@@ -22,8 +45,20 @@ function renderCalendarGrid(year, month, tbody) {
     week.forEach((day) => {
       const td = document.createElement("td");
 
-      // If day is null, show empty cell; otherwise show the day number
-      td.textContent = day === null ? "" : day;
+      // If day is not null, we populate the cell
+      if (day !== null) {
+        td.textContent = day; // Set the day number
+
+        // *** THIS IS THE KEY CHANGE ***
+        // Check if our events map has an entry for this day
+        if (events.has(day)) {
+          // If it does, create a small div to show the event name
+          const eventDiv = document.createElement("div");
+          eventDiv.className = "event"; // For potential styling
+          eventDiv.textContent = events.get(day);
+          td.appendChild(eventDiv);
+        }
+      }
 
       tr.appendChild(td);
     });
