@@ -18,20 +18,21 @@ export function getDateForCommemorativeDay(dayData, year) {
     }
 
     const dates = [];
-    const date = new Date(year, monthIndex, 1);
+    //Create the initial date in UTC to avoid timezone errors.
+    const date = new Date(Date.UTC(year, monthIndex, 1));
 
-    while (date.getMonth() === monthIndex) {
-        // Correctly compare the day number (0-6)
-        if (date.getDay() === targetDayIndex) {
+    //Use UTC functions for the loop to make it timezone-safe.
+    while (date.getUTCMonth() === monthIndex) {
+        //Use getUTCDay() to check the day in UTC.
+        if (date.getUTCDay() === targetDayIndex) {
             dates.push(new Date(date));
         }
-        date.setDate(date.getDate() + 1);
+        //Use setUTCDate() and getUTCDate() to increment the day in UTC.
+        date.setUTCDate(date.getUTCDate() + 1);
     }
-
     if (dayData.occurence === "last") {
         return dates[dates.length - 1];
     }
-
     const indexMap = {
         first: 0,
         second: 1,
