@@ -16,7 +16,7 @@ function getEventsForMonth(year, month) {
       const date = getDateForCommemorativeDay(dayInfo, year);
       if (date) {
         // Store the event in our map with the day number as the key (e.g., 8 -> "Ada Lovelace Day")
-        events.set(date.getDate(), dayInfo.name);
+        events.set(date.getUTCDate(), dayInfo.name);
       }
     }
   });
