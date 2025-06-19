@@ -1,22 +1,23 @@
-/*forthe whole calendar container*/
+/* calendar container */
 #calendar-container {
-    margin-top: 10%;
     display: flex;
+    width: 80%;
+    margin-top: 3rem;
+    margin: auto;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
+    gap: 1rem;
 }
-/*forthe table border*/
+
 #calendar-grid {
     border-collapse: collapse;
-    width: 50%;
+    width: 100%;
     table-layout: fixed; /* Ensures all columns are the same width */
     margin-top: 15px;
-    /*to center this grid/the calender part*/
-    margin-left: auto;
-    margin-right: auto;
+
 }
+
 /* heading mon tue ..*/
 #calendar-grid th {
     border: 2px solid #ccc;
@@ -26,7 +27,7 @@
 /*each individual day */
 #calendar-grid td {
     border: 1px solid #ccc;
-    height: 80px;
+    height: 3rem;
     padding: 5px;
     vertical-align: top;
 }
@@ -43,6 +44,7 @@
 }
 /* for the title */
 #calendar-title {
+    margin-top: 2rem;
     font-size: 2.5rem;
     font-weight: 800;
     text-align: center;
