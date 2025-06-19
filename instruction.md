@@ -5,7 +5,7 @@ Our project is a dynamic, timezone-safe calendar application that displays annua
 ## 👥 Team Roles and Final Responsibilities
 ### Karla — Frontend/UI Lead
 -   **Responsibilities:** Karla spearheaded the frontend development, focusing on everything the user sees and interacts with in the browser. She skillfully built the calendar's HTML structure from the ground up in `calendar.mjs` and managed all dynamic user events—like button clicks and dropdown changes—within `web.mjs`.
--   **Primary Files:** `index.html`, `src/web.mjs`, `src/calendar.mjs`
+-   **Primary Files:** `index.html`, `src/web.mjs`, `src/calendar.mjs`, `common.mjs`
 
 ### Miki — Backend/Core Logic Lead
 -   **Responsibilities:** Miki led the development of the core logic and backend features that power the application. He engineered the critical date-calculation engine in `dateUtilities.mjs`, wrote the Node.js script to generate the iCal file, and developed a suite of unit tests to guarantee the logic's correctness. Critically, he also identified and resolved a major timezone bug, ensuring the application's reliability.
@@ -17,7 +17,7 @@ Our project is a dynamic, timezone-safe calendar application that displays annua
 
 | Person | Files                                                              | Responsibilities                                                       |
 |:-------|:-------------------------------------------------------------------|:-----------------------------------------------------------------------|
-| Karla  | `index.html`, `src/web.mjs`, `src/calendar.mjs`                    | UI Rendering, DOM Creation, Event Handling (Clicks/Changes), Accessibility. |
+| Karla  | `index.html`, `src/web.mjs`, `src/calendar.mjs`, `common.mjs`            | UI Rendering, DOM Creation, Event Handling (Clicks/Changes), Accessibility. |
 | Miki   | `icals-data/generate-icals.mjs`, `src/dateUtilities.mjs`, `src/common.mjs`, `test/commerative.test.mjs` | Core Date Calculation (UTC-Safe), iCal Generation, Unit Testing, Grid Logic. |
 
 ---
@@ -42,10 +42,10 @@ This section highlights the most important technical accomplishments of our proj
 └── generate-icals.mjs   # (Miki) Node script to generate .ics files
 
 /src
-├── calendar.mjs         # (Karla) Builds the HTML structure for the UI
-├── common.mjs           # (Miki) Contains grid logic and dropdown population
+├── calendar.mjs         # (Karla +Miki(code review)) Builds the HTML structure for the UI
+├── common.mjs           # (Miki + Karla) Contains grid logic and dropdown population
 ├── dateUtilities.mjs    # (Miki) The core "brain" for UTC date calculation
-└── web.mjs              # (Karla) Frontend entry point, event handling
+└── web.mjs              # (Karla + Miki(code review)) Frontend entry point, event handling
 
 /test
 └── commerative.test.mjs # (Miki) Unit tests for the date logic
@@ -71,3 +71,19 @@ instruction.md           # This file
 -   **Verification:**
     -   **Karla** is responsible for performing a final UI and accessibility audit on the live, deployed site.
     -   **Miki** is responsible for generating the final `days.ics` file and verifying that it imports successfully into Google Calendar.
+
+---
+
+## 📸 Demo Preview
+https://karmikcalendar.netlify.app/
+
+
+## 👩‍💻👨🏼‍💻 Collaborators
+
+Built by
+
+[Mikiyas](https://github.com/Mikiyas-STP) 
+
+[Karla Grajales](https://github.com/Grajales-K)
+
+---
