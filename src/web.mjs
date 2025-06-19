@@ -46,7 +46,6 @@ function renderCalendarGrid(year, month, tbody) {
       if (day !== null) {
         td.textContent = day; // Set the day number
 
-        // *** THIS IS THE KEY CHANGE ***
         // Check if our events map has an entry for this day
         if (events.has(day)) {
           // If it does, create a small div to show the event name
@@ -74,7 +73,7 @@ function initializeApp() {
   const ui = createCalendarLayout();
 
   //Populate the Controls
-  //use populateMonthsSelect to populate the monthselect and yearselect.
+  //use populateMonthsSelect to populate the monthSelect and yearSelect.
   populateMonthsSelect(ui.monthSelect);
   populateYearsSelect(ui.yearSelect);
 
@@ -87,7 +86,7 @@ function initializeApp() {
   // Now that the initial month and year are set, render the calendar dates
   renderCalendarGrid(today.getFullYear(), today.getMonth(), ui.tbody);
 
-  //eventlisteners to update the calendar
+  //eventListeners to update the calendar
   //When the user changes the month dropdown
   ui.monthSelect.addEventListener("change", () => {
     renderCalendarGrid(Number(ui.yearSelect.value), Number(ui.monthSelect.value), ui.tbody);
