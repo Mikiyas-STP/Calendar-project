@@ -1,155 +1,89 @@
-# 📅 Project Instructions and Roles
-
+# 📅 Project Instructions and Final Report
 ## Overview
+Our project is a dynamic, timezone-safe calendar application that displays annually recurring commemorative days. These events are based on flexible rules, such as "the second Tuesday of October," rather than fixed dates. The application provides full month and year navigation and can generate a standard iCal (`.ics`) file, allowing users to import these special events directly into their personal calendars like Google Calendar.
+---
+## 👥 Team Roles and Final Responsibilities
+### Karla — Frontend/UI Lead
+-   **Responsibilities:** Karla spearheaded the frontend development, focusing on everything the user sees and interacts with in the browser. She skillfully built the calendar's HTML structure from the ground up in `calendar.mjs` and managed all dynamic user events—like button clicks and dropdown changes—within `web.mjs`.
+-   **Primary Files:** `index.html`, `src/web.mjs`, `src/calendar.mjs`, `common.mjs`
 
-This project implements a dynamic calendar that displays commemorative days which occur annually but not on fixed dates (e.g., "second Tuesday of October"). The calendar supports month/year navigation and generates an iCal (`.ics`) file for importing into calendar apps like Google Calendar.
+### Miki — Backend/Core Logic Lead
+-   **Responsibilities:** Miki led the development of the core logic and backend features that power the application. He engineered the critical date-calculation engine in `dateUtilities.mjs`, wrote the Node.js script to generate the iCal file, and developed a suite of unit tests to guarantee the logic's correctness. Critically, he also identified and resolved a major timezone bug, ensuring the application's reliability.
+-   **Primary Files:** `icals-data/generate-icals.mjs`, `src/dateUtilities.mjs`, `src/common.mjs`, `test/commerative.test.mjs`
 
 ---
 
-## 👥 Team Roles and Responsibilities
+## 🔁 Final Role Division by File
 
-### Karla — Web/UI Lead
-
-- Build and maintain the frontend calendar UI (`web.mjs`):
-  - Render the calendar grid for any given month/year.
-  - Implement previous/next buttons and month/year selectors.
-  - Display commemorative days accurately from `days.json`.
-  - Ensure accessibility (ARIA roles, semantic HTML, keyboard nav).
-- Perform browser testing and address UI bugs.
-
-### Miki — Backend/Node Lead
-
-- Implement the `.ics` generator script (`generate-icals.mjs`) using shared logic.
-- Maintain shared date logic in `common.mjs`.
-- Write unit tests for logic functions.
-- Set up CI/CD (e.g., GitHub Actions) for automatic deployment.
-- Verify `.ics` files import correctly into Google Calendar.
+| Person | Files                                                              | Responsibilities                                                       |
+|:-------|:-------------------------------------------------------------------|:-----------------------------------------------------------------------|
+| Karla  | `index.html`, `src/web.mjs`, `src/calendar.mjs`, `common.mjs`            | UI Rendering, DOM Creation, Event Handling (Clicks/Changes), Accessibility. |
+| Miki   | `icals-data/generate-icals.mjs`, `src/dateUtilities.mjs`, `src/common.mjs`, `test/commerative.test.mjs` | Core Date Calculation (UTC-Safe), iCal Generation, Unit Testing, Grid Logic. |
 
 ---
 
-## 🔁 Role Division by File
+## 🚀 Key Technical Decisions & Achievements
 
-| Person | Files                                                 | Responsibilities                                      |
-|--------|-------------------------------------------------------|-------------------------------------------------------|
-| Karla  | `index.html`, `web.mjs`                               | UI rendering, DOM handling, navigation, accessibility |
-| Miki   | `common.mjs`, `generate-icals.mjs`, `common.test.mjs` | Shared logic, backend generation, testing, deployment |
+This section highlights the most important technical accomplishments of our project.
 
----
+1.  **Achieving Timezone Safety with UTC:** A critical challenge we overcame was ensuring date accuracy across different timezones. The initial implementation used the server's local time, which led to incorrect dates for international users. **Miki** successfully re-architected the `dateUtilities.mjs` file to perform all calculations exclusively in UTC, making the application robust and accurate for a global audience.
 
-## 🚀 Workflow and Milestones
+2.  **Leveraging Tests to Discover a Critical Bug:** The discovery of the timezone issue is a testament to our robust testing strategy. The unit tests written by **Miki** immediately failed when run in a standard UTC environment, which allowed us to pinpoint and fix the bug before release. This demonstrates the value of writing tests to ensure code quality.
 
-| Milestone               | Tasks (Karla)                           | Tasks (Miki)                                 | Notes                                |
-|------------------------|-----------------------------------------|----------------------------------------------|--------------------------------------|
-| Setup & Skeleton        | Project structure, render current month | Initialize `.ics` generator and shared logic | Use `common.mjs` for all logic       |
-| Calendar Navigation     | Add prev/next buttons, dropdowns        | Begin `.ics` logic per event                 | UI must support all years/months     |
-| Commemorative Days      | Load and show days from `days.json`     | Use shared logic to generate correct `.ics`  | Must support all JSON formats        |
-| Testing & Accessibility | Test UI, add ARIA/labels                | Write unit tests for date logic              | Ensure 100% Lighthouse accessibility |
-| Deployment & Review     | Final testing, UI polish                | Automate deployment, test `.ics` import      | Use GitHub Actions, Vercel, etc.     |
+3.  **Prioritizing Modular and Maintainable Code:** Following the initial build, both team members dedicated time to refactoring the code for better clarity and maintainability. **Karla** skillfully broke down the large `createCalendarLayout` function into smaller, more focused helper functions. In parallel, **Miki** improved the efficiency and readability of the main application logic.
 
 ---
 
-## 📁 Folder Structure
+## 📁 Final Folder Structure
 
 ```
-
-/.vscode
-└── settings.json                 # (Optional) IDE settings
-
 /icals-data
-├── days.json                    # Source data for commemorative days
-└── generate-icals.mjs           # Node script to generate `.ics` files
+├── days.json
+└── generate-icals.mjs   # (Miki) Node script to generate .ics files
 
 /src
-├── calendar.mjs                 # Calendar rendering logic
-├── common.mjs                   # Shared date calculation logic
-├── dateutilities.mjs            # Helper functions for nth/last weekday
-└── web.mjs                      # Frontend entry, event handling
+├── calendar.mjs         # (Karla +Miki(code review)) Builds the HTML structure for the UI
+├── common.mjs           # (Miki + Karla) Contains grid logic and dropdown population
+├── dateUtilities.mjs    # (Miki) The core "brain" for UTC date calculation
+└── web.mjs              # (Karla + Miki(code review)) Frontend entry point, event handling
 
 /test
-└── common.test.mjs              # Unit tests for date logic
+└── commerative.test.mjs # (Miki) Unit tests for the date logic
 
-index.html                       # Main webpage
-README.md                        # Documentation
-instruction.md                   # This file
-
+index.html               # (Karla) Main webpage entry point
+README.md
+instruction.md           # This file
 ```
 
 ---
 
-## 🛠️ Development Notes
+## ✅ Testing Strategy
 
-- Use **ES Modules** (`import`/`export`) consistently across JS files.
-- Serve files over HTTP (e.g. `http-server`) to avoid CORS/module issues.
-- Keep date logic DRY by centralizing in `common.mjs` (used by both frontend & Node).
-- `.ics` must include individual events (no recurrence) for 2020–2030.
-- Accessibility is **mandatory** – use Lighthouse to test.
-- Use GitHub for version control, with PRs and feature branches.
-- Sync often and review each other’s code for understanding.
+-   **Unit Testing (Miki):** A comprehensive test suite was implemented in `test/commerative.test.mjs`. These tests validate the core `getDateForCommemorativeDay` function against known UTC dates. This strategy proved invaluable, as it was directly responsible for identifying and confirming the fix for the critical timezone bug.
 
----
-
-## ✅ Testing
-
-- **Unit tests** (Miki) in `/test/common.test.mjs` for:
-  - Calculating “nth weekday of a month”
-  - Finding the “last weekday” of a month
-  - Parsing data from `days.json`
-
-- **Manual UI testing** (Karla):
-  - Rendering correct days
-  - Navigation buttons
-  - Commemorative day labels
+-   **Manual UI Testing (Karla):** Karla conducted continuous manual testing on the UI to guarantee a seamless and accessible user experience. Her checks confirmed that the calendar grid renders correctly, all navigation features work as expected, commemorative days appear on their proper UTC-calculated dates, and the application achieves a 100% Lighthouse accessibility score.
 
 ---
 
 ## 🌐 Deployment
 
-- **Deployment platform:** GitHub Pages, Vercel, or Netlify
-- **CI/CD:** GitHub Actions automates deployment
-- **Verification tasks:**
-  - Karla: UI & accessibility test post-deployment
-  - Miki: `.ics` import test via Google Calendar
+-   **Platform:** The project is configured for deployment on modern hosting platforms like GitHub Pages and Netlify.
+-   **Verification:**
+    -   **Karla** is responsible for performing a final UI and accessibility audit on the live, deployed site.
+    -   **Miki** is responsible for generating the final `days.ics` file and verifying that it imports successfully into Google Calendar.
 
 ---
 
-## 📣 Communication Plan
+## 📸 Demo Preview
+https://karmikcalendar.netlify.app/
 
-- Sync daily or each session to share blockers/progress
-- Use GitHub Issues or team chat to track tasks
-- Code reviews before merge to ensure clarity and understanding
 
----
+## 👩‍💻👨🏼‍💻 Collaborators
 
-## 📚 References & Resources
+Built by
 
-- [Node.js `fs` module](https://nodejs.org/api/fs.html)
-- [MDN: JavaScript Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)
-- [ARIA Authoring Practices Guide](https://www.w3.org/TR/wai-aria-practices/)
-- [Google Calendar Importing Help](https://support.google.com/calendar/answer/37118)
+[Mikiyas](https://github.com/Mikiyas-STP) 
+
+[Karla Grajales](https://github.com/Grajales-K)
 
 ---
-
-## ✅ Summary of Role Division
-
-### Karla — Frontend Developer
-
-- Files: `index.html`, `web.mjs`
-- Responsibilities:
-  - Calendar grid, DOM manipulation
-  - JSON parsing & display of commemorative days
-  - Accessibility & manual UI testing
-
-### Miki — Backend Developer
-
-- Files: `generate-icals.mjs`, `common.mjs`, `common.test.mjs`
-- Responsibilities:
-  - Shared logic for commemorative date calculation
-  - `.ics` generation for 2020–2030
-  - Deployment & unit testing
-
----
-
-## 🤝 Collaboration Plan
-
-- Share logic via `common.mjs` (no duplicated calculation)
-- Merge often, avoid conflicts

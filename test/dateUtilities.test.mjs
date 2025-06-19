@@ -1,8 +1,7 @@
 //import fn to be tested
 import { getDateForCommemorativeDay } from "../src/dateUtilities.mjs";
-//import necessary tools to run our test
-import assert from "node:assert";
-import test from "node:test";
+// NOTE: `test` and `expect` are now globally available from Jest.
+// We no longer need to import `test` or `assert`.
 
 //Test1: Ada Lovelace Day in 2024 to checks the "second Tuesday" logic.
 test("Calculates Ada Lovelace Day (2nd Tuesday of October) for 2024", () => {
@@ -12,7 +11,8 @@ test("Calculates Ada Lovelace Day (2nd Tuesday of October) for 2024", () => {
     const actualDate = getDateForCommemorativeDay(dayData, year);
     actualDate.setUTCHours(0, 0, 0, 0); //Normalize the actual date to midnight UTC.
     
-    assert.deepStrictEqual(actualDate, expectedDate, "Failed for Ada Lovelace Day 2024. Expected October 8th.");
+    // CHANGED: This is the new Jest assertion format.
+    expect(actualDate).toEqual(expectedDate);
 });
 //Test2: World Lemur Day in 2025 to checks the "last Friday" logic.
 test("Calculates World Lemur Day (last Friday of October) for 2025", () => {
@@ -22,7 +22,8 @@ test("Calculates World Lemur Day (last Friday of October) for 2025", () => {
     const actualDate = getDateForCommemorativeDay(dayData, year);
     actualDate.setUTCHours(0, 0, 0, 0);
 
-    assert.deepStrictEqual(actualDate, expectedDate, "Failed for World Lemur Day 2025. Expected October 31st.");
+    // CHANGED: This is the new Jest assertion format.
+    expect(actualDate).toEqual(expectedDate);
 });
 //Test3: International Red Panda Day in 2022 to checks the "third Saturday" logic.
 test("Calculates International Red Panda Day (3rd Saturday of September) for 2022", () => {
@@ -32,7 +33,8 @@ test("Calculates International Red Panda Day (3rd Saturday of September) for 202
     const actualDate = getDateForCommemorativeDay(dayData, year);
     actualDate.setUTCHours(0, 0, 0, 0);
 
-    assert.deepStrictEqual(actualDate, expectedDate, "Failed for Red Panda Day 2022. Expected September 17th.");
+    // CHANGED: This is the new Jest assertion format.
+    expect(actualDate).toEqual(expectedDate);
 });
 //Test4: A month where the first day matches the target day{a good edge case to test.}
 test("Calculates first Saturday of September 2024", () => {
@@ -42,5 +44,6 @@ test("Calculates first Saturday of September 2024", () => {
     const actualDate = getDateForCommemorativeDay(dayData, year);
     actualDate.setUTCHours(0, 0, 0, 0);
 
-    assert.deepStrictEqual(actualDate, expectedDate, "Failed for first Saturday of Sept 2024. Expected September 7th.");
+    // CHANGED: This is the new Jest assertion format.
+    expect(actualDate).toEqual(expectedDate);
 });

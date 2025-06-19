@@ -1,0 +1,27 @@
+{
+  "name": "calendar-project",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "This project is a dynamic, timezone-safe web application that displays a calendar of commemorative days which occur on non-fixed dates (e.g., \"the second Tuesday of October\"). It provides a full user interface for navigating through months and years and includes a Node.js script to generate a standard iCal (`.ics`) file, allowing users to import these events directly into their own personal calendars.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+  "test": "NODE_OPTIONS=--experimental-vm-modules jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mikiyas-STP/Calendar-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mikiyas-STP/Calendar-project/issues"
+  },
+  "homepage": "https://github.com/Mikiyas-STP/Calendar-project#readme",
+  "devDependencies": {
+    "jest": "^30.0.2"
+  }
+}
