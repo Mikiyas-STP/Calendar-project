@@ -10,39 +10,7 @@
     gap: 1rem;
 }
 
-#calendar-grid {
-    border-collapse: collapse;
-    width: 100%;
-    table-layout: fixed; /* Ensures all columns are the same width */
-    margin-top: 15px;
 
-}
-
-/* heading mon tue ..*/
-#calendar-grid th {
-    border: 2px solid #ccc;
-    padding: 6px;
-    text-align: center;
-}
-/*each individual day */
-#calendar-grid td {
-    border: 1px solid #ccc;
-    height: 3rem;
-    padding: 5px;
-    vertical-align: top;
-}
-/*what if cell is empty. i applied this style*/
-#calendar-grid td:empty {
-    background-color: #f9f9f9;
-}
-/* A very simple style for the event text inside a day */
-.event {
-    background-color: #e7f3ff;
-    padding: 3px;
-    font-size: 0.9em;
-    border-radius: 5px;
-}
-/* for the title */
 #calendar-title {
     margin-top: 2rem;
     font-size: 2.5rem;
@@ -50,6 +18,7 @@
     text-align: center;
     color: rgb(63, 63, 155);
 }
+
 #calendar-controls button,
 #calendar-controls select {
     text-align: center;
@@ -62,6 +31,7 @@
     vertical-align: middle;
     gap: 0.1rem;    
 }
+
 #calendar-controls label {
     margin-left: 0.5rem;
     font-size: 1.5rem;
@@ -70,3 +40,37 @@
 }
 
 
+#calendar-grid {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+    margin-top: 15px;
+}
+
+
+#calendar-grid th {
+    border: 2px solid #ccc;
+    padding: 6px;
+    text-align: center;
+}
+
+
+#calendar-grid td {
+    border: 1px solid #ccc;
+    height: 3rem;
+    padding: 5px;
+    vertical-align: top;
+}
+
+
+#calendar-grid td:empty {
+    background-color: #f9f9f9;
+}
+
+.event {
+    background-color: #e7f3ff;
+    padding: 3px;
+    font-size: 0.9em;
+    border-radius: 5px;
+    
+}
