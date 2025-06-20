@@ -1,15 +1,13 @@
-// Fill the month dropdown with options (January to December)
+//to populate the Month and Year dropdown with options
 export function populateMonthsSelect(monthSelect) {
+
   const monthNames = [
     "January", "February", "March", "April",
     "May", "June", "July", "August",
     "September", "October", "November", "December"
   ];
 
-  // Clear any existing options
-  monthSelect.innerHTML = "";
-
-  // Create option elements for each month and append them
+  monthSelect.innerHTML = ""; 
   monthNames.forEach((monthName, index) => {
     const option = document.createElement("option");
     option.value = index; // 0-based month index
@@ -18,12 +16,9 @@ export function populateMonthsSelect(monthSelect) {
   });
 }
 
-// Fill the year dropdown with options over a range of years
 export function populateYearsSelect(yearSelect, startYear = 1900, endYear = 2200) {
-  // Clear any existing options
-  yearSelect.innerHTML = "";
 
-  // Generate option elements for each year in the range and append them
+  yearSelect.innerHTML = "";
   for (let year = startYear; year <= endYear; year++) {
     const option = document.createElement("option");
     option.value = year;
@@ -32,54 +27,42 @@ export function populateYearsSelect(yearSelect, startYear = 1900, endYear = 2200
   }
 }
 
-//Your existing getMonthGrid function
+//building the 2DGrid of the month
 export function getMonthGrid(year, month) {
-  //How many days are in the month we asked for? This line gets the last day of the given month by asking for day 0 of the next month.
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-  //on what day of the week does this month start? getDay() return 0 for sunday, 1 for monday, 2 for Tuesday ...etc
-  const firstDayOfWeek = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();//last day of the month by looking at day 0 of the next month.
+  const firstDayOfWeek = new Date(year, month, 1).getDay(); // 1->monday
 
-  //Adjust for our week starting on Monday
-  //The instructions say our calendar week starts on Monday.
-  //We need to convert JavaScript's Sunday-first week (0=Sun) to a Monday-first week (0=Mon).
-  //This is a simple calculation to find our "starting square" in the grid.
-  //It's a compact if-else: if (firstDayOfWeek === 0) then startDayIndex is 6, else it's firstDayOfWeek - 1.
+  //adjust our calender to start on monday->0(to be first day) 
   const startDayIndex = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
-
-  //Build the grid, week by week 
-  
-  let currentWeek = []; //a temporary array to hold the 7 days of the week we are currently building.
+ 
+  let currentWeek = [];
   const grid = []; //the main grid array holding weeks
-  let dayCounter = 1; //the number we'll be putting into the square, starting with 1
+  let dayCounter = 1;
 
   //first, add the empty squares for the beginning of the first week
   for (let i = 0; i < startDayIndex; i++) {
-    currentWeek.push(null); // null will be displayed in the empty squares
-    
+    currentWeek.push(null); // null in the empty squares
   }
 
-  //Now, fill the square with day numbers until we run out of days.
+  
   while (dayCounter <= daysInMonth) {
     currentWeek.push(dayCounter);
     if (currentWeek.length === 7) {
-      grid.push(currentWeek); //add the completed week to our main
-      currentWeek = []; //this will start a new empty array
+      grid.push(currentWeek);
+      currentWeek = []; //reset  the array for the other weeks
     }
-    dayCounter++;
+    dayCounter++;  //fill the square until we run out of days
   }
-  //After the loop, check if there's an incomplete week left over.
-  //This handles months that don't end perfectly on a Sunday.
-  if (currentWeek.length > 0) {
+
+  if (currentWeek.length > 0) {  //if their is incomplete week leftover
     while (currentWeek.length < 7) {
       currentWeek.push(null);
     }
-     //Add the final, now-completed week to the grid.
+
     grid.push(currentWeek);
   }
 
-
-  // Now,return the completed grid.
   return grid;
 }
 
