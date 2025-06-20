@@ -16,46 +16,41 @@ export function createCalendarLayout() {
   const tableDiv = document.createElement("div");
   tableDiv.id = "calendar-table";
 
-  // ----- button previous button -------
-  // ----- Added aria label for accessibility screen readers -------
+  // ----- button -------
   const prevButton = document.createElement("button");
   prevButton.id = "prev-button";
   prevButton.textContent = " ← Previous";
   prevButton.setAttribute("aria-label", "Go to previous month");
 
-  // ----- button previous button -------
+
   const nextButton = document.createElement("button");
   nextButton.id = "next-button";
   nextButton.textContent = "Next → ";
   nextButton.setAttribute("aria-label", "Go to the next month");
 
-  // ----- Dropdown Months  -------
-  // ----- ACCESSIBILITY LABELS Months -------
-  const monthLabel = document.createElement("label");
+  // ----- Dropdown -------
+  const monthLabel = document.createElement("label");   //for label
   monthLabel.htmlFor = "month-select";
   monthLabel.textContent = "Month: ";
-
-  const monthSelect = document.createElement("select");
+  const monthSelect = document.createElement("select"); //for dropdown
   monthSelect.id = "month-select";
 
-  // ----- Dropdown Years  -------
-  // ----- ACCESSIBILITY LABELS Years -------
+
   const yearLabel = document.createElement("label");
   yearLabel.htmlFor = "year-select";
   yearLabel.textContent = "Year: ";
-
   const yearSelect = document.createElement("select");
   yearSelect.id = "year-select";
 
-  //appended buttons and dropdown to its container.
+//the calader controls appended
   controlsDiv.append(prevButton, nextButton, monthLabel, monthSelect, yearLabel, yearSelect);
 
-  // ----- Table calendar  -------
+  // -- Table calendar  --
   const table = document.createElement("table");
   table.id = "calendar-grid";
 
-  // ----- header row with day names  -------
-  const thead = document.createElement("thead");
+
+  const thead = document.createElement("thead"); //heading for daynames
   const headerRow = document.createElement("tr");
 
   const dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -67,19 +62,13 @@ export function createCalendarLayout() {
 
   thead.appendChild(headerRow);
 
-  // ----- body where dates will be injected dynamically  -------
   const tbody = document.createElement("tbody");
   tbody.id = "calendar-body";
-
-  // ----- body where dates will be injected dynamically  -------
   table.append(thead, tbody);
   tableDiv.appendChild(table);
 
-  calendarContainer.append(titleDiv, controlsDiv, tableDiv);
+  calendarContainer.append(titleDiv, controlsDiv, tableDiv); //everything appended here
+  document.body.appendChild(calendarContainer); //appened to the body of the html
 
-  //appended to the body the structure
-  document.body.appendChild(calendarContainer);
-
-  // Using property shorthand for a more compact return statement
-  return { monthSelect, yearSelect, prevButton, nextButton, tbody };
+  return { monthSelect, yearSelect, prevButton, nextButton, tbody }; //to dynamically use them outside this function e.g eventlistner
 }
