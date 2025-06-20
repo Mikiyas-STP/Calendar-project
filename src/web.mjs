@@ -44,7 +44,7 @@ function renderCalendarGrid(year, month, tbody) {
         }
       }
       tr.appendChild(td);
-    });y
+    });
     tbody.appendChild(tr);
   });
 }
